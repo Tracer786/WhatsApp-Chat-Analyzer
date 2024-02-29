@@ -3,13 +3,21 @@ def fetch_stats(selected_user, df):
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
+    # fetch the number of messages
     num_messages = df.shape[0]
+
+    # fetch the number of words
     words = []
     for message in df['message']:
         words.extend(message.split())
 
-    return num_messages, len(words)
-    
+    # fetch the number of media messages
+    num_media_messages = df[df['message'] == '<Media omitted>\n'].shape[0]
+
+    # fetch number of links shared
+
+    return num_messages, len(words), num_media_messages
+
     # it is due to the above if condition that we are not using the below code
     # by using the code below we have reduced the length of the code
 
