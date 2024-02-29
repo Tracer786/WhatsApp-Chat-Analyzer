@@ -56,3 +56,8 @@ def fetch_stats(selected_user, df):
     #         words.extend(message.split())
     #
     #     return num_messages, len(words)
+
+
+def most_busy_users(df):
+    x = df['user'].value_counts().head()
+    return x

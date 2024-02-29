@@ -1,6 +1,7 @@
 import streamlit as st
 import preprocessor
 import helper
+import matplotlib.pyplot as plt
 
 st.sidebar.title("WhatsApp Chat Analyzer")
 
@@ -49,7 +50,15 @@ if uploaded_file is not None:
 
         if selected_user == "Overall":
             st.title("Most Busy Users")
+            x = helper.most_busy_users(df)
+            fig, ax = plt.subplots()
+
             col1, col2 = st.columns(2)
+
+            with col1:
+                ax.bar(x.index, x.values)
+                plt.xticks(rotation='vertical')
+                st.pyplot(fig)
 
 
 
