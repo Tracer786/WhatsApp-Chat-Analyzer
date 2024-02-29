@@ -1,0 +1,31 @@
+First of all will create the file app.py
+Next will install streamlit using the command 'pip install streamlit'
+Then will import streamlit in out project
+Will create a file with the name 'preprocessor.py'
+Will create a function and the code is the same as we wrote in the jyputer notebook
+    def preprocess(data): #ek data milega (text/string data)
+
+Next will make the basic app of streamlit to check whether it is working or not
+For this we will type the code in the file app.py
+    The code that we will use is given below:
+        st.sidebar.title("WhatsApp Chat Analyzer")
+
+To run the application we simply need to use the command given below in the terminal:
+    'streamlit run app.py'
+
+After that we need to add the button to upload the files for analysis.
+For this we need to go to documentation of streamlit and check for the code to upload the file.
+Follow the link below to check the code for file uploading:
+    https://docs.streamlit.io/library/api-reference/widgets/st.file_uploader
+
+Will make some changes to the upload function
+The changes are shown in the file app.py
+
+
+Then will import the preprocessor file in our app.py
+
+Then will call the dataframe from the preprocessor and display it using the code:
+    df = preprocessor.preprocess(data)
+    st.dataframe(df)
+
+
