@@ -73,12 +73,30 @@ def most_busy_users(df):
 
 
 def create_word_cloud(selected_user, df):  # creating a function for the wordcloud
+    f = open('stop_hinglish.txt', 'r')
+    stop_words = f.read()
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
+    temp = df[df['user'] != 'group_notification']
+    temp = temp[temp['message'] != '<Media omitted>\n']
+
+    def remove_stop_words(message):
+        y = []
+        for word in message.lower().split():
+            if word not in stop_words:
+                y.append(word)
+
+        return " ".join(y)
+
     # configure wordcloud
     wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white')
-    df_wc = wc.generate(df['message'].str.cat(sep=" "))
+
+    temp['message'] = temp['message'].apply(remove_stop_words)
+
+    # now our wordcloud should not contain the stop words
+
+    df_wc = wc.generate(temp['message'].str.cat(sep=" "))
     return df_wc
 
 
