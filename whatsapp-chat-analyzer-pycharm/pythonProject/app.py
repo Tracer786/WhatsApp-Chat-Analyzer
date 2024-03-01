@@ -28,6 +28,8 @@ if uploaded_file is not None:
 
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
 
+        st.title("Top Statistics")
+
         col1, col2, col3, col4 = st.columns(4)
 
         with col1:
@@ -45,6 +47,16 @@ if uploaded_file is not None:
         with col4:
             st.header("Links Shared")
             st.title(num_links)
+
+        # timeline
+
+        st.title("Monthly Timeline")
+
+        timeline = helper.monthly_timeline(selected_user, df)
+        fig, ax = plt.subplots()
+        ax.plot(timeline['time'], timeline['message'],color='yellow')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
 
         # finding the busiest users in the group (Group Level)
 
@@ -75,7 +87,7 @@ if uploaded_file is not None:
 
         fig, ax = plt.subplots()
         # ax.bar(most_common_df[0], most_common_df[1])
-        ax.barh(most_common_df[0], most_common_df[1])
+        ax.barh(most_common_df[0], most_common_df[1],color='green')
 
         plt.xticks(rotation='vertical')
         st.title("Most Common Words")
@@ -94,6 +106,6 @@ if uploaded_file is not None:
 
         with col2:
             fig, ax = plt.subplots()
-            ax.pie(emoji_df[1], labels=emoji_df[0])
+            ax.pie(emoji_df[1], labels=emoji_df[0],autopct='%.2f%%')
             st.pyplot(fig)
 
