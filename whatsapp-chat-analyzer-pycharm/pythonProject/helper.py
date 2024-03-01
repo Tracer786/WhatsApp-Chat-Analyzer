@@ -2,6 +2,10 @@ from urlextract import URLExtract
 
 from wordcloud import WordCloud
 
+import pandas as pd
+
+from collections import Counter
+
 
 def fetch_stats(selected_user, df):
     if selected_user != 'Overall':
@@ -76,3 +80,34 @@ def create_word_cloud(selected_user, df):  # creating a function for the wordclo
     wc = WordCloud(width=500, height=500, min_font_size=10, background_color='white')
     df_wc = wc.generate(df['message'].str.cat(sep=" "))
     return df_wc
+
+
+def most_common_words(selected_user, df):
+
+    f = open('stop_hinglish.txt', 'r')
+    stop_words = f.read()
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    temp = df[df['user'] != 'group_notification']
+    # temp is a new dataframe where we only have the messages that are not group messages
+    # temp[message] != '<Media omitted\n'
+
+    temp = temp[temp['message'] != '<Media omitted>\n']
+
+    words = []
+
+    for message in temp['message']:
+        for word in message.lower().split():
+            if word not in stop_words:
+                words.append(word)
+
+    # we have changed the for loop
+    # as all the stopwords in the stopwords file are in lowercase , first we need to convert our chat into lower case
+    # then we need to check the chat word by word
+    # If the particular word in chat is in the stopwords file we will not append that word
+    # otherwise we will append that word to the words list
+
+    most_common_df = pd.DataFrame(Counter(words).most_common(20))
+
+    return most_common_df

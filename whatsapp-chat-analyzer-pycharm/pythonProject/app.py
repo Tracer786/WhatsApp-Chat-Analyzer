@@ -70,5 +70,9 @@ if uploaded_file is not None:
         ax.imshow(df_wc)
         st.pyplot(fig)
 
+        # Most common words
+        most_common_df = helper.most_common_words(selected_user, df)
+
+        st.dataframe(most_common_df)
 
 
