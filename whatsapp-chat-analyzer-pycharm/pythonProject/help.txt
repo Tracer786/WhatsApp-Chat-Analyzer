@@ -29,7 +29,6 @@ Then will call the dataframe from the preprocessor and display it using the code
     st.dataframe(df)
 
 
-
 Open CMD
 
 To show all packages installed - pip list
