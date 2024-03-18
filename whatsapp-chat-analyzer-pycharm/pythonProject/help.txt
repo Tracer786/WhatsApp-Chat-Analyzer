@@ -29,3 +29,19 @@ Then will call the dataframe from the preprocessor and display it using the code
     st.dataframe(df)
 
 
+
+Open CMD
+
+To show all packages installed - pip list
+
+To copy the packages name to a file - pip freeze > requirements.txt
+
+To delete all packages - pip uninstall -r requirements.txt -y
+
+Check all packages are removed - pip list
+
+Uninstall pip and other remaining packages
+
+Control panel > Uninstall > Python uninstall (from UI)
+
+

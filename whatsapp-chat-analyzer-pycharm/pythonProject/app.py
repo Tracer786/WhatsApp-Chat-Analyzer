@@ -2,6 +2,8 @@ import streamlit as st
 import preprocessor
 import helper
 import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
 
 st.sidebar.title("WhatsApp Chat Analyzer")
 
@@ -48,7 +50,7 @@ if uploaded_file is not None:
             st.header("Links Shared")
             st.title(num_links)
 
-        # timeline
+        # monthly timeline
 
         st.title("Monthly Timeline")
 
@@ -58,8 +60,42 @@ if uploaded_file is not None:
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
 
-        # finding the busiest users in the group (Group Level)
+        # daily timeline
 
+        st.title("Daily Timeline")
+
+        daily_timeline = helper.daily_timeline(selected_user, df)
+        fig, ax = plt.subplots()
+        ax.plot(daily_timeline['only_date'], daily_timeline['message'], color='orange')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        # activity map
+        st.title("Activity Map")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.header("Most Busy Day")
+            busy_day = helper.week_activity_map(selected_user, df)
+            fig, ax = plt.subplots()
+            ax.bar(busy_day.index, busy_day.values,color='maroon')
+            st.pyplot(fig)
+
+        with col2:
+            st.header("Most Busy Month")
+            busy_month = helper.month_activity_map(selected_user, df)  # Assuming this function returns a Pandas Series
+            fig, ax = plt.subplots()
+            ax.bar(busy_month.index, busy_month.values, color='purple')
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)
+
+        st.title("Weekly Activity Map")
+        user_heatmap = helper.activity_heatmap(selected_user, df)
+        fig, ax = plt.subplots()
+        ax = sns.heatmap(user_heatmap)
+        st.pyplot(fig)
+
+        # finding the busiest users in the group (Group Level)
         if selected_user == "Overall":
             st.title("Most Busy Users")
             x, new_df = helper.most_busy_users(df)
@@ -106,6 +142,5 @@ if uploaded_file is not None:
 
         with col2:
             fig, ax = plt.subplots()
-            ax.pie(emoji_df[1], labels=emoji_df[0],autopct='%.2f%%')
+            ax.pie(emoji_df[1], labels=emoji_df[0], autopct='%.2f%%')
             st.pyplot(fig)
-
