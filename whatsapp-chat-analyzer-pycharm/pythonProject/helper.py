@@ -8,6 +8,11 @@ from collections import Counter
 
 import emoji
 
+# Initialize URLExtract object
+extract = URLExtract()
+
+f = open('stop_hinglish.txt', 'r')
+
 
 def fetch_stats(selected_user, df):
     if selected_user != 'Overall':
@@ -29,12 +34,9 @@ def fetch_stats(selected_user, df):
     # for message in df['message']:
     #     links.extend(extractor.find_urls(message))
 
-    # Initialize URLExtract object
-    extractor = URLExtract()
-
     links = []
     for message in df['message']:
-        links.extend(extractor.find_urls(message))
+        links.extend(extract.find_urls(message))
 
     return num_messages, len(words), num_media_messages, len(links)
 
@@ -74,8 +76,8 @@ def most_busy_users(df):
     return x, df
 
 
-def create_word_cloud(selected_user, df):  # creating a function for the wordcloud
-    f = open('stop_hinglish.txt', 'r')
+def create_wordcloud(selected_user, df):  # creating a function for the wordcloud
+    # f = open('stop_hinglish.txt', 'r')
     stop_words = f.read()
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
@@ -104,7 +106,7 @@ def create_word_cloud(selected_user, df):  # creating a function for the wordclo
 
 def most_common_words(selected_user, df):
 
-    f = open('stop_hinglish.txt', 'r')
+    # f = open('stop_hinglish.txt', 'r')
     stop_words = f.read()
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
@@ -171,11 +173,10 @@ def daily_timeline(selected_user, df):
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
 
-    daily_timeline = df.groupby('only_date').count()[
+    daily_timeline_two = df.groupby('only_date').count()[
         'message'].reset_index()  # this will give the message count of every single day
 
-
-    return daily_timeline
+    return daily_timeline_two
 
 
 def week_activity_map(selected_user, df):

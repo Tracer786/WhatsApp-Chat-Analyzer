@@ -24,7 +24,7 @@ if uploaded_file is not None:
     user_list.sort()
     user_list.insert(0, "Overall")
 
-    selected_user = st.sidebar.selectbox("Show Analysis wrt",user_list)
+    selected_user = st.sidebar.selectbox("Show Analysis wrt", user_list)
 
     if st.sidebar.button("Show Analysis"):
 
@@ -56,8 +56,9 @@ if uploaded_file is not None:
 
         timeline = helper.monthly_timeline(selected_user, df)
         fig, ax = plt.subplots()
-        ax.plot(timeline['time'], timeline['message'],color='yellow')
+        ax.plot(timeline['time'], timeline['message'], color='yellow')
         plt.xticks(rotation='vertical')
+        # plt.show()
         st.pyplot(fig)
 
         # daily timeline
@@ -78,7 +79,8 @@ if uploaded_file is not None:
             st.header("Most Busy Day")
             busy_day = helper.week_activity_map(selected_user, df)
             fig, ax = plt.subplots()
-            ax.bar(busy_day.index, busy_day.values,color='maroon')
+            ax.bar(busy_day.index, busy_day.values, color='maroon')
+            plt.xticks(rotation='vertical')
             st.pyplot(fig)
 
         with col2:
@@ -113,7 +115,7 @@ if uploaded_file is not None:
 
         # Wordcloud
         st.title("WordCloud")
-        df_wc = helper.create_word_cloud(selected_user, df)
+        df_wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots()
         ax.imshow(df_wc)
         st.pyplot(fig)
@@ -123,7 +125,7 @@ if uploaded_file is not None:
 
         fig, ax = plt.subplots()
         # ax.bar(most_common_df[0], most_common_df[1])
-        ax.barh(most_common_df[0], most_common_df[1],color='green')
+        ax.barh(most_common_df[0], most_common_df[1], color='green')
 
         plt.xticks(rotation='vertical')
         st.title("Most Common Words")
@@ -142,5 +144,5 @@ if uploaded_file is not None:
 
         with col2:
             fig, ax = plt.subplots()
-            ax.pie(emoji_df[1], labels=emoji_df[0], autopct='%.2f%%')
+            ax.pie(emoji_df[1].head(), labels=emoji_df[0].head(), autopct='%0.2f')
             st.pyplot(fig)
